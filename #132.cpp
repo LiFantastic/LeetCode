@@ -13,23 +13,22 @@ produced using 1 cut.
 class Solution {
 public:
     int minCut(string s) {
-        int n = s.size();
-        if (n==0) return 0;
-        vector<vector<bool>> pal(n,vector<bool>(n,false));
-        vector<int> d(n);
-            
-        for(int i=n-1; i>=0; i--) {
-            d[i]=n-i-1;
-            for(int j=i;j<n;j++) {
-                if(s[i]==s[j] && (j-i<2 || pal[i+1][j-1])) {
-                    pal[i][j]=true;
-                    if (j==n-1)
-                        d[i]=0;
-                    else
-                        d[i] = min(d[j+1]+1, d[i]);
-                }
-            }
-        }
-        return d[0];
-    }
-};
+        const int n = s.size();
+         if (n<=1) return 0;
+         int i,j;
+         bool isPal[n][n] = {false};
+         int dp[n+1];  // dp[i]: min cuts need for s[0:i) 
+
+         for (i=0; i<=n; ++i) dp[i] = i-1;  // initial with len(s[0:i))-1 = i-1
+
+         for (j=1; j<n; j++) {
+             for (i=j; i>=0; i--) {
+                 if ((s[i] == s[j]) && ((j-i < 2) || isPal[i+1][j-1])) {  // s[i:j] is pal
+                     isPal[i][j] = true;
+                     dp[j+1] = min(dp[j+1], 1 + dp[i]);  // update dp[j+1], with information of dp[i] (s[0:i-1] has length of i) 
+                 }
+             }
+         }
+         return dp[n];
+     }
+ };
