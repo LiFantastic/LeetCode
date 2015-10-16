@@ -2,7 +2,7 @@
 Problem: Word Break II
 ==============================================================
 Given a string s and a dictionary of words dict, add spaces in
- s to construct a sentence where each word is a valid dictionary word.
+s to construct a sentence where each word is a valid dictionary word.
 
 Return all such possible sentences.
 
@@ -13,30 +13,29 @@ A solution is ["cats and dog", "cat sand dog"].
 ============================================================*/
 class Solution {
 private:
-    unordered_map<string, vector<string>> m;
+    unordered_map<string, vector<string>> memory;
 
-    vector<string> combine(string word, vector<string> prev){
-        for(int i=0;i<prev.size();++i){
-            prev[i]+=" "+word;
+    vector<string> combine(vector<string> tmpRes, string word){
+        for (int i=0;i<tmpRes.size();++i) {
+            tmpRes[i]+=" "+word;
         }
-        return prev;
+        return tmpRes;
     }
-
 public:
     vector<string> wordBreak(string s, unordered_set<string>& dict) {
-        if (m.count(s)) return m[s]; //take from memory
-        vector<string> result;
-        if (dict.count(s)) //a whole string is a word
-            result.push_back(s);
-        for(int i=1; i<s.size(); i++) {
+        if (memory.count(s)) return memory[s]; //take from memory
+        vector<string> res;
+        if (dict.count(s))  //a whole string is a word
+            res.push_back(s);
+        for (int i=1; i<s.size(); i++) {
             string word=s.substr(i);
             if (dict.count(word)) {
-                string rest=s.substr(0,i);
-                vector<string> prev = combine(word, wordBreak(rest, dict));
-                result.insert(result.end(), prev.begin(), prev.end());
+                string prev=s.substr(0,i);
+                vector<string> tmp = combine(wordBreak(prev, dict), word);
+                res.insert(res.end(), tmp.begin(), tmp.end());
             }
         }
-        m[s]=result; //memorize
-        return result;
+        memory[s]=res; //memorize
+        return res;
     }
 };
