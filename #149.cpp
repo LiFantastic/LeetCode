@@ -17,7 +17,6 @@ class Solution {
 public:
     int maxPoints(vector<Point>& points) {
 		unordered_map<float,int> k2nums;
-		unordered_set<float> existK;
 		int maxNum = 0;
 		for (int i=0; i<points.size(); i++) {
 			k2nums.clear();
@@ -28,13 +27,11 @@ public:
 					continue;
 				}
 				float k = points[i].x==points[j].x ? INT_MAX : (float)(points[j].y-points[i].y)/(points[j].x-points[i].x);
-				if (!existK.count(k))
-					k2nums[k]++;
+				k2nums[k]++;
 			}
-			for (auto it=k2nums.begin(); it!=k2nums.end(); it++) {
+			for (auto it=k2nums.begin(); it!=k2nums.end(); it++)
 				maxNum = max(maxNum, it->second+duplicate);
-				existK.insert(it->first);
-			}
+				
 			maxNum = max(maxNum, duplicate);
 		}
 		return maxNum;
