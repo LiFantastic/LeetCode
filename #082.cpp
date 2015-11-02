@@ -19,9 +19,10 @@ Given 1->1->1->2->3, return 2->3.
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode *res, *tmp, *pre, *cur = head, *succeed;  // pre -> cur -> succeed
+        ListNode *res, *tmp, *dummyHead, *pre, *cur = head, *succeed;  // pre -> cur -> succeed
         
-        pre = new ListNode(0);
+        dummyHead = new ListNode(0);
+        pre = dummyHead;
         pre->next = head;
         res = pre;
         
@@ -42,6 +43,7 @@ public:
                 cur = cur->next;
             }
         }
+        delete dummyHead;
         return res->next;
     }
 };

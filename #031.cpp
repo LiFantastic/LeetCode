@@ -21,7 +21,7 @@ public:
         int i, j, len=num.size();
         for (i=len-2; i>=0; i--) {
             if (num[i] < num[i+1]) {  // i (i+1 ... end)   things in (...) are in decending order 
-                for (j=len-1; j>i-1; j--)  // find the smallest element num[j] in (...) such that num[j]>num[i]
+                for (j=len-1; j>i; j--)  // find the smallest element num[j] in (...) such that num[j]>num[i]
                     if (num[j]>num[i])
                         break;
                 swap(num[i],num[j]);  // swap num[i] with a just litter bigger element num[j]

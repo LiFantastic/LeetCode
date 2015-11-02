@@ -10,21 +10,28 @@ For example,
 class Solution {
 private:
 	vector<vector<int> > res;
+	vector<int> tmp;
+	vector<bool> notused;
 
-	void dfs(vector<int>& nums, int cur) {
-		if (cur == nums.size())
-		    res.push_back(nums);
-		else {
-			for (int i=cur; i<nums.size(); i++) {
-				swap(nums[cur], nums[i]);
-				dfs(nums, cur+1);
-				swap(nums[cur], nums[i]);
+	void dfs(vector<int>& nums) {
+		if (tmp.size() == nums.size()) {
+		    res.push_back(tmp);
+		    return;
+		}
+		for (int i=0; i<nums.size(); i++) {
+			if (notused[i]) {
+			    notused[i] = false;
+			    tmp.push_back(nums[i]);
+				dfs(nums);
+				notused[i] = true;
+				tmp.pop_back();
 			}
 		}
 	}
 public:
     vector<vector<int>> permute(vector<int> &nums) {
-		dfs(nums, 0);
+        notused = vector<bool>(nums.size(), true);
+		dfs(nums);
 		return res;
     }
 };

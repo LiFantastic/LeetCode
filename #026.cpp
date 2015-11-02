@@ -23,10 +23,8 @@ public:
 	    for (int i=1; i<len; i++) {
 		    if (nums[i]==nums[i-1])
 			    continue;
-		    else {
-			    nums[distinct] = nums[i];
-			    distinct++;
-		    }
+		    else
+			    nums[distinct++] = nums[i];
 	    }
 	    return distinct;
     }

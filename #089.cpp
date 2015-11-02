@@ -28,8 +28,7 @@ class Solution {
 public:
     vector<int> grayCode(int n) {
         int size = 1<<n;
-        vector<int> grayCodes;
-        grayCodes.resize(size);
+        vector<int> grayCodes(size);
 
         for (int i=0; i<size; i++) {
             int code = i ^ i>>1;  // match calculation of gray code

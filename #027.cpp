@@ -13,9 +13,8 @@ public:
         int remain=0;  // the remain count uptill now
         for (int i=0; i<nums.size(); i++) {
             if (nums[i]!=val) {
-            	if (remain!=i)
-            		nums[remain] = nums[i];
-            	remain++;
+                nums[remain] = nums[i];
+                remain++;
                 continue;
             }
         }

@@ -11,22 +11,20 @@ Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int secHight = 0;
-        int left =0, right = height.size()-1;
-        int trapArea = 0;
-        
-        while (left < right) {
-            if (height[left] < height[right]) {
-                secHight = max(height[left], secHight);
-                trapArea += secHight-height[left];
+        int left=0; int right=height.size()-1;
+        int res=0, maxleft=0, maxright=0;
+        while (left<=right) {
+            if (height[left]<=height[right]) {
+                maxleft = max(maxleft, height[left]);
+                res += maxleft-height[left];
                 left++;
             }
-            else {
-                secHight = max(height[right], secHight);
-                trapArea += secHight-height[right];
+            else{
+                maxright = max(maxright, height[right]);
+                res+=maxright-height[right];
                 right--;
             }
         }
-        return trapArea;      
+        return res;
     }
 };

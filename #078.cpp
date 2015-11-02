@@ -29,7 +29,7 @@ private:
       		res.push_back(tmp);
       		return;
     	}
-    	// not add nums[index]
+    	// don't add nums[index]
     	dfs(nums, index+1);
 
     	// add nums[index]

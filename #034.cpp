@@ -19,8 +19,14 @@ private:
         int mid = (left + right) / 2;
 
         if (A[mid] == key) {
-            int pos = findLeft ? findPos(A, left, mid-1, key, findLeft) : findPos(A, mid + 1, right, key, findLeft);
-            return pos == -1 ? mid : pos;
+            if (findLeft) {
+                while (mid>=0 && A[mid]==key) mid--;
+                return mid+1;
+            }
+            else {
+                while (mid<A.size() && A[mid]==key) mid++;
+                return mid-1;
+            }
         }
         else if (A[mid] < key)  // search right part
             return findPos(A, mid+1, right, key, findLeft);
