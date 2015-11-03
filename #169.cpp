@@ -18,8 +18,8 @@ public:
                 count = 1;
             }
             else {
-                if(nums[i] == candidate) count ++;
-                else count --;
+                if(nums[i] == candidate) count++;
+                else count--;
             }
         }
         return candidate;

@@ -13,7 +13,7 @@ A solution is ["cats and dog", "cat sand dog"].
 ============================================================*/
 class Solution {
 private:
-    unordered_map<string, vector<string>> memory;
+    unordered_map<string, vector<string>> cache;
 
     vector<string> combine(vector<string> tmpRes, string word){
         for (int i=0;i<tmpRes.size();++i) {
@@ -23,7 +23,7 @@ private:
     }
 public:
     vector<string> wordBreak(string s, unordered_set<string>& dict) {
-        if (memory.count(s)) return memory[s]; //take from memory
+        if (cache.count(s)) return cache[s]; //take from cache
         vector<string> res;
         if (dict.count(s))  //a whole string is a word
             res.push_back(s);
@@ -35,7 +35,7 @@ public:
                 res.insert(res.end(), tmp.begin(), tmp.end());
             }
         }
-        memory[s]=res; //memorize
+        cache[s]=res; //memorize
         return res;
     }
 };

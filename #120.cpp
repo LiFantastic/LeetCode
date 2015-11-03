@@ -16,6 +16,7 @@ The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
 class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
+        // bottom up!
         vector<int> minSum(triangle[triangle.size()-1]);
         for (int i=triangle.size()-2; i>=0 ; i--)
             for (int j=0; j<triangle[i].size(); j++)

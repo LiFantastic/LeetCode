@@ -27,10 +27,10 @@ private:
     void dfs(vector<vector<char>> &grid, int x, int y) {
     	if (grid[x][y] == '0') return;
         grid[x][y] = '0';
-        if(x > 0) dfs(grid, x-1, y);
-        if(x < m-1) dfs(grid, x+1, y);
-        if(y > 0) dfs(grid, x, y-1);
-        if(y < n-1) dfs(grid, x, y+1);
+        if (x > 0)   dfs(grid, x-1, y);
+        if (x < m-1) dfs(grid, x+1, y);
+        if (y > 0)   dfs(grid, x,   y-1);
+        if (y < n-1) dfs(grid, x,   y+1);
     }	
 public:
     int numIslands(vector<vector<char>> &grid) {

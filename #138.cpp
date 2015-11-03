@@ -1,26 +1,56 @@
 /*============================================================
-Problem: Single Number II
+Problem: Copy List with Random Pointer
 ==============================================================
-Given an array of integers, every element appears three times 
-except for one. Find that single one.
+A linked list is given such that each node contains an additional 
+random pointer which could point to any node in the list or null.
 
-Note:
-Your algorithm should have a linear runtime complexity. Could 
-you implement it without using extra memory?
+Return a deep copy of the list.
 ============================================================*/
+/**
+ * Definition for singly-linked list with a random pointer.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    int singleNumber(vector<int>& nums) {
-        int one=0, two=0, three=0;
-       
-        for(int i=0; i<nums.size(); i++) {
-            three =  two & nums[i];
-            two = two | one & nums[i];
-            one = one | nums[i];
-            // remove all that appears three times
-            one = one & ~three;
-            two = two & ~three;
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        RandomListNode *oriIter, *pseudoHead, *curIter, *next;
+        
+        oriIter = head;
+        while (oriIter!=NULL) {
+            next = oriIter->next;
+            oriIter->next = new RandomListNode(oriIter->label);;
+            oriIter->next->next = next;        
+            oriIter = next;
+        }  // origin1 -> copy1 -> origin2 -> copy2 -> ... ->
+        
+        oriIter = head;
+        while (oriIter!=NULL) {
+            if (oriIter->random != NULL)
+                oriIter->next->random = oriIter->random->next;
+            oriIter = oriIter->next->next;
+        }  // add random
+        
+        pseudoHead = new RandomListNode(0);
+        curIter = pseudoHead;
+        oriIter = head;
+        
+        while (oriIter!=NULL) {
+            next = oriIter->next->next;
+            // split the copy
+            curIter->next = oriIter->next;
+            curIter = oriIter->next;
+
+            // restore the original list
+            oriIter->next = next;
+            oriIter = next;
         }
-         return one;
+        curIter = pseudoHead->next;
+        delete pseudoHead;
+        return curIter;
     }
 };
+

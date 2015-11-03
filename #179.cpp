@@ -28,7 +28,7 @@ public:
                 res += numString[i];
                 first = false;
             } 
-            else if (!first)
+            else if (!first)  // add '0' only when not to the begin
                 res += numString[i];
         }
         if (first) res.push_back('0');

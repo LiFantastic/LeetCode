@@ -16,7 +16,7 @@ The solution is guaranteed to be unique.
 ============================================================*/
 class Solution {
 public:
-    int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         if (gas.size() != cost.size()) return -1;
         if (gas.size() == 0) return -1;
         

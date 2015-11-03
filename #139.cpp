@@ -1,56 +1,32 @@
 /*============================================================
-Problem: Copy List with Random Pointer
+Problem: Word Break
 ==============================================================
-A linked list is given such that each node contains an additional 
-random pointer which could point to any node in the list or null.
+Given a string s and a dictionary of words dict, determine if 
+s can be segmented into a space-separated sequence of one or 
+more dictionary words.
 
-Return a deep copy of the list.
+For example, given
+s = "leetcode",
+dict = ["leet", "code"].
+
+Return true because "leetcode" can be segmented as "leet code".
 ============================================================*/
-/**
- * Definition for singly-linked list with a random pointer.
- * struct RandomListNode {
- *     int label;
- *     RandomListNode *next, *random;
- *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
- * };
- */
 class Solution {
 public:
-    RandomListNode *copyRandomList(RandomListNode *head) {
-        RandomListNode *oriIter, *pseudoHead, *curIter, *next;
-        
-        oriIter = head;
-        while (oriIter!=NULL) {
-            next = oriIter->next;
-            oriIter->next = new RandomListNode(oriIter->label);;
-            oriIter->next->next = next;        
-            oriIter = next;
-        }  // origin1 -> copy1 -> origin2 -> copy2 -> ... ->
-        
-        oriIter = head;
-        while (oriIter!=NULL) {
-            if (oriIter->random != NULL)
-                oriIter->next->random = oriIter->random->next;
-            oriIter = oriIter->next->next;
-        }  // add random
-        
-        pseudoHead = new RandomListNode(0);
-        curIter = pseudoHead;
-        oriIter = head;
-        
-        while (oriIter!=NULL) {
-            next = oriIter->next->next;
-        	// split the copy
-            curIter->next = oriIter->next;
-            curIter = oriIter->next;
-
-        	// restore the original list
-        	oriIter->next = next;
-        	oriIter = next;
-    	}
-        curIter = pseudoHead->next;
-        delete pseudoHead;
-        return curIter;
+    bool wordBreak(string s, unordered_set<string> &dict) {
+        vector<bool> result(s.length(), false);
+        for (int i = 0; i < result.size(); ++i) {
+            if (dict.find(s.substr(0, i + 1)) != dict.end()) {
+                result[i] = true;
+                continue;
+            }
+            for (int j = 0; j < i; ++j) {
+                if ((result[j] == true) && (dict.find(s.substr(j+1, i-j))!= dict.end())) {
+                    result[i] = true;
+                    break;
+                }
+            }
+        }
+        return result[result.size() - 1];
     }
 };
-

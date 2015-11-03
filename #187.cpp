@@ -27,5 +27,5 @@ public:
         		res.push_back(s.substr(i-10, 10));
         }
     	return res;
-}
+    }
 };

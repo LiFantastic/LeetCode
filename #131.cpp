@@ -15,15 +15,15 @@ Return
 ============================================================*/
 class Solution {
 private:
-	vector<string> tmp;
-	vector<vector<string>> res;
-	
+    vector<string> tmp;
+    vector<vector<string>> res;
+    
     void getPartition(string& s, int idx) {
         if (idx == s.length()) {
             res.push_back(tmp);
             return;
         }
-        for (int i=idx, n=s.length(); i<n; i++) {
+        for (int i=idx; i<s.length(); i++) {
             int l = idx, r = i;
             while (l<r && s[l]==s[r]) l++, r--;
             if (l>=r) {

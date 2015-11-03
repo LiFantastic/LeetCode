@@ -18,11 +18,7 @@ public:
         bool isCycle =false;
         
         while (fast!=NULL) {
-            if (fast->next == NULL) {
-                isCycle = false;
-                break;
-            }
-            if (fast->next->next==NULL) {
+            if (!fast->next || !fast->next->next) {
                 isCycle = false;
                 break;
             }

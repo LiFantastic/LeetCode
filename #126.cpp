@@ -32,7 +32,10 @@ struct Node {
 };
 class Solution {
 private:
-    void generatePath(vector<vector<string>>& res, vector<string>& tmp, Node* p) {
+    vector<vector<string>> res;
+    vector<string> tmp;
+    
+    void generatePath(Node* p) {
         int n = p->parent.size();
         if (n==0) { 
             res.push_back(tmp);
@@ -40,10 +43,8 @@ private:
         }
         for (int i=0; i<n; i++) {
             tmp.push_back(p->parent[i]->word);
-            //tmp.insert(tmp.begin(), p->parent[i]->word);
-            generatePath(res, tmp, p->parent[i]);
+            generatePath(p->parent[i]);
             tmp.pop_back();
-            //tmp.erase(tmp.begin());
         }
     }
     
@@ -52,7 +53,6 @@ public:
         vector<Node*> curLevel;
         vector<Node*> nextLevel;
         
-        vector<vector<string>> res;
         map<string, Node*> word2node;
         
         swap(beginWord, endWord);
@@ -103,8 +103,9 @@ public:
         if (!found) return res;
         
         curL =  word2node.find(endWord)->second;
-        vector<string> tmp(1, endWord);
-        generatePath(res, tmp, curL);
+        res.clear();
+        tmp = vector<string>(1, endWord);
+        generatePath(curL);
         return res;
     }
 };

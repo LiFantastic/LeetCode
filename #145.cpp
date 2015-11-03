@@ -26,21 +26,22 @@ Note: Recursive solution is trivial, could you do it iteratively?
  */
 class Solution {
 public:
-    vector<int> preorderTraversal(TreeNode* root) {
-    	vector<int> res;
-    	stack<TreeNode*> nodeStack;
-		TreeNode *tmp;
-    	nodeStack.push(root);
+    vector<int> postorderTraversal(TreeNode* root) {
+        // "reverse" preorder
+        vector<int> res;
+        stack<TreeNode*> nodeStack;
+        TreeNode *tmp;
+        nodeStack.push(root);
 
-    	while (!nodeStack.empty()) {
-    		tmp = nodeStack.top();
-    		nodeStack.pop();
-    		if (!tmp) continue;
-    		res.push_back(tmp->val);
-    		nodeStack.push(tmp->left);
-    		nodeStack.push(tmp->right);
-    	}
-    	reverse(res.begin(), res.end());
+        while (!nodeStack.empty()) {
+            tmp = nodeStack.top();
+            nodeStack.pop();
+            if (!tmp) continue;
+            res.push_back(tmp->val);
+            nodeStack.push(tmp->left);
+            nodeStack.push(tmp->right);
+        }
+        reverse(res.begin(), res.end());
         return res;
     }
 };

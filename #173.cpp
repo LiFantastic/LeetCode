@@ -20,37 +20,38 @@ and uses O(h) memory, where h is the height of the tree.
  */
 class BSTIterator {
 private:
-	TreeNode *cur;
+    TreeNode *cur;
     stack<TreeNode*> nodeStack;
     int nextmin;
 public:    
     BSTIterator(TreeNode *root) {
-    	TreeNode *tmp = root;
-    	TreeNode *dummyHead = new TreeNode(0);
-    	cur = dummyHead;
+        // reconstruct the tree, each node's right child point to "next" element
+        TreeNode *tmp = root;
+        TreeNode *dummyHead = new TreeNode(0);
+        cur = dummyHead;
         while (tmp) {
-        	if (tmp->left) {
-				nodeStack.push(tmp);
-        		tmp = tmp->left;
-        		continue;
-        	}
-        	else {
-        		cur->right = tmp;
-        		cur = tmp;
-        		tmp = tmp->right;
-        		if (!tmp && !nodeStack.empty()) {
-        			tmp = nodeStack.top();
-        			tmp->left = NULL;
-        			nodeStack.pop();
-        		}
-        	}
+            if (tmp->left) {
+                nodeStack.push(tmp);
+                tmp = tmp->left;
+                continue;
+            }
+            else {
+                cur->right = tmp;
+                cur = tmp;
+                tmp = tmp->right;
+                if (!tmp && !nodeStack.empty()) {
+                    tmp = nodeStack.top();
+                    tmp->left = NULL;
+                    nodeStack.pop();
+                }
+            }
         }
         cur = dummyHead->right;
         delete dummyHead;
     }
     /** @return whether we have a next smallest number */
     bool hasNext() {
-    	return cur;
+        return cur;
     }
     /** @return the next smallest number */
     int next() {

@@ -12,36 +12,41 @@ already present. When the cache reached its capacity, it
 should invalidate the least recently used item before 
 inserting a new item.
 ============================================================*/
-class LRUCache{
-    int m_capacity;
-    unordered_map<int, list<pair<int, int>>::iterator> key2listNode;  //key2listNode_iter->first: key, key2listNode_iter->second: list iterator;
-    list<pair<int, int>> keyValueList;                               //keyValueList_iter->first: key, keyValueList_iter->second: value;
+class LRUCache {
+private:
+    list<int> leastRecentUse;
+    unordered_map<int, pair<int, list<int>::iterator>> cache;
+    int _capacity;
+
+    void touch(unordered_map<int, pair<int, list<int>::iterator>>::iterator it) {
+        int key = it->first;
+        leastRecentUse.erase(it->second.second);
+        leastRecentUse.push_front(key);
+        it->second.second = leastRecentUse.begin();
+    }
 public:
-    LRUCache(int capacity) {
-        m_capacity = capacity;
-    }
-    
+    LRUCache(int capacity) : _capacity(capacity) {}
+
     int get(int key) {
-        auto it = key2listNode.find(key);
-        if (it == key2listNode.end())  //key doesn't exist
-            return -1;
-        keyValueList.splice(keyValueList.begin(), keyValueList, it->second);  //move the node corresponding to key to front
-        return it->second->second;  //return value of the node
+        auto it = cache.find(key);
+        if (it == cache.end()) return -1;
+        touch(it);
+        return it->second.first;
     }
-    
+
     void set(int key, int value) {
-        auto it = key2listNode.find(key);
-        if (it != key2listNode.end()) {  //key exists
-            keyValueList.splice(keyValueList.begin(), keyValueList, it->second);  //move the node corresponding to key to front
-            it->second->second = value;  //update value of the node
-            return;
+        auto it = cache.find(key);
+        if (it != cache.end()) {
+            touch(it);
+            it->second.first = value;
         }
-        if (keyValueList.size() == m_capacity) {  //reached capacity
-           int key_to_del = keyValueList.back().first; 
-           keyValueList.pop_back();  //remove node in list;
-           key2listNode.erase(key_to_del);  //remove key in map
+        else {
+            if (cache.size() == _capacity) {
+                cache.erase(leastRecentUse.back());
+                leastRecentUse.pop_back();
+            }
+            leastRecentUse.push_front(key);
+            cache[key] = {value, leastRecentUse.begin()};
         }
-        keyValueList.emplace_front(key, value);  //create new node in list
-        key2listNode[key] = keyValueList.begin();  //create correspondence between key and node
     }
 };
