@@ -14,8 +14,8 @@ public:
         	if (i > k) windowK.erase(nums[i-k-1]);  // keep the set contains nums i j at most k
         	auto pos = windowK.lower_bound(nums[i]-t);  // x >= nums[i] - t
         	if (pos != windowK.end() && *pos-nums[i]<=t)  return true;  // x <= nums[i] + t
-        windowK.insert(nums[i]);
-    }
+            windowK.insert(nums[i]);
+        }   
     return false;
-}
+    }
 };

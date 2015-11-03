@@ -36,13 +36,13 @@ private:
     
     void dfs(int node) {
         if (state[node] == 2) return;  // pruning
-    	if (state[node] == 1) {
-    		cycle = true; 
-    		return;
-    	} // cycle occurs, break the dfs chain and all return
+        if (state[node] == 1) {
+            cycle = true; 
+            return;
+        } // cycle occurs, break the dfs chain and all return
         state[node] = 1;  // 1, searching
         for (int i=0; i<graph[node].size(); i++)
-            dfs(gragh[node][i]);  // every prerequisit
+            dfs(graph[node][i]);  // every prerequisit
         order.push_back(node);
         state[node] = 2;  // 2, once finished.
     }
