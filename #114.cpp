@@ -39,17 +39,18 @@ public:
             
         stack<TreeNode*> nodeStack;
         nodeStack.push(root);
-        TreeNode *pre = new TreeNode(0), *cur, *record = pre;
+        TreeNode *dummyHead = new TreeNode(0), *cur, *pre = dummyHead;
         
         while (!nodeStack.empty()) {
+            // preOrder tranverse
             cur = nodeStack.top();
             nodeStack.pop();
-            if (cur->right!=NULL) nodeStack.push(cur->right);
-            if (cur->left !=NULL) nodeStack.push(cur->left);
             pre->right = cur;  // flattern
             pre->left = NULL;  // flattern
             pre = cur;
+            if (cur->right!=NULL) nodeStack.push(cur->right);
+            if (cur->left !=NULL) nodeStack.push(cur->left);
         }
-        delete record;
+        delete dummyHead;
     }
 };

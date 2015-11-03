@@ -20,27 +20,23 @@ If nums = [1,2,3], a solution is:
 ]
 ============================================================*/
 class Solution {
+  vector<vector<int>> res;
+  vector<int> tmp;
 private:
-	vector<int> tmp;
-	vector<vector<int>> res;
-    
-	void dfs(vector<int>& nums, int index) {
-    	if (index == nums.size()) {
-      		res.push_back(tmp);
-      		return;
-    	}
-    	// don't add nums[index]
-    	dfs(nums, index+1);
+    void dfs(vector<int>& nums, int index) {
+        res.push_back(tmp);  // add this subset
 
-    	// add nums[index]
-    	tmp.push_back(nums[index]);
-    	dfs(nums, index+1);
-    	tmp.pop_back();
-  	}
-public:
-	vector<vector<int>> subsets(vector<int>& nums) {
-    	sort(nums.begin(), nums.end());
-    	dfs(nums, 0);
-    	return res;
-	}
+        for (int i=index; i<nums.size(); i++) {
+            tmp.push_back(nums[i]);
+            dfs(nums, i+1);
+            tmp.pop_back();
+        }
+    }
+public:    
+    vector<vector<int> > subsets(vector<int>& nums) {
+        if (nums.size()==0) return res;
+        sort(nums.begin() , nums.end()); // sort
+        dfs(nums, 0);
+        return res;
+    }
 };

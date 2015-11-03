@@ -24,15 +24,16 @@ class Solution {  // in order traverse
 private:
     long prev = LONG_MIN;
 
-    bool check(int val) {  // in order tranverse, prev should aways smaller than val
-        if (prev>=val) return false;
-        prev = val;
-        return true;
+    bool inOrderCheck(TreeNode *root) {  // in order tranverse, prev should aways smaller than val
+        if (root == NULL) return true;
+        if (!inOrderCheck(root->left)) return false;
+        if (prev>=root->val) return false;
+        prev = root->val;
+        return inOrderCheck(root->right);
     }
 public:
     bool isValidBST(TreeNode *root) {
-        if(root == NULL) return true;
-        return (isValidBST(root->left) && check(root->val) && isValidBST(root->right));
+        return inOrderCheck(root);
         // in order tranverse
     }
 };

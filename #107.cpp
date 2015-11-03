@@ -36,11 +36,9 @@ private:
         if (p == NULL) return;
             
         if (res.size() > level)
-        	res[level].push_back(p->val);
-        else {
-            vector<int> tmp(1, p->val);
-            res.push_back(tmp);
-        }
+          res[level].push_back(p->val);
+        else
+            res.push_back(vector<int>(1, p->val));
         traverse(level+1, p->left);
         traverse(level+1, p->right);
     }

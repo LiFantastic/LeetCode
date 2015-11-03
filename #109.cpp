@@ -1,9 +1,17 @@
 /*============================================================
-Problem: Convert Sorted List to Binary Search Tree
+Problem: Convert Sorted Array to Binary Search Tree
 ==============================================================
-Given a singly linked list where elements are sorted in 
-ascending order, convert it to a height balanced BST.
+Given an array where elements are sorted in ascending order, 
+convert it to a height balanced BST.
 ============================================================*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -15,21 +23,27 @@ ascending order, convert it to a height balanced BST.
  */
 class Solution {
 private:
-    int checkHeight(TreeNode* p) {  
-    // return the height of subtree if it is banlanced, otherwise -1 for early pruning
-        if (p==NULL) return 0;
-        int leftHeight = checkHeight(p->left);
-        if (leftHeight==-1) return -1;  // pruning
-        int rightHeight = checkHeight(p->right);
-        if (rightHeight==-1) return -1;  // pruning
-        
-        int heightDiff = abs(leftHeight-rightHeight);
-        if (heightDiff>1) return -1;
-        else return max(leftHeight, rightHeight)+1;
+    ListNode* nodeVisiting;
+
+    TreeNode *buildTree(int l, int r) {
+        if (l>r) return NULL;
+        int mid = l+(r-l)/2;
+        TreeNode *left = buildTree(l, mid-1);
+        TreeNode *root = new TreeNode(nodeVisiting->val);
+        root->left = left;
+        nodeVisiting = nodeVisiting->next;  // key point here!
+        root->right = buildTree(mid+1, r);
+        return root;
     }
 public:
-    bool isBalanced(TreeNode* root) {
-        if (checkHeight(root)==-1) return false;
-        else return true;
+    TreeNode *sortedListToBST(ListNode *head) {
+        int len = 0;
+        ListNode *p = head;
+        while (p) {
+            p = p->next;
+            len++;
+        }
+        nodeVisiting = head;
+        return buildTree(0, len-1);
     }
 };

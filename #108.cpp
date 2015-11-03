@@ -5,14 +5,6 @@ Given an array where elements are sorted in ascending order,
 convert it to a height balanced BST.
 ============================================================*/
 /**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-/**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
@@ -23,27 +15,18 @@ convert it to a height balanced BST.
  */
 class Solution {
 private:
-    ListNode* nodeVisiting;
-
-    TreeNode *buildTree(int l, int r) {
-        if (l>r) return NULL;
-        int mid = l+(r-l)/2;
-        TreeNode *left = buildTree(l, mid-1);
-        TreeNode *root = new TreeNode(nodeVisiting->val);
-        root->left = left;
-        nodeVisiting = nodeVisiting->next;  // key point here!
-        root->right = buildTree(mid+1, r);
+    TreeNode* convert(vector<int>::iterator left, vector<int>::iterator right) {
+        if (left>=right) return NULL;
+        
+        vector<int>::iterator current = left+(right-left)/2;
+        TreeNode *root = new TreeNode(*current);
+        root->left = convert(left, current);
+        root->right = convert(current+1, right);
         return root;
     }
+    
 public:
-    TreeNode *sortedListToBST(ListNode *head) {
-        int len = 0;
-        ListNode *p = head;
-        while (p) {
-            p = p->next;
-            len++;
-        }
-        nodeVisiting = head;
-        return buildTree(0, len-1);
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return convert(nums.begin(), nums.end());
     }
 };
